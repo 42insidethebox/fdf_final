@@ -7,7 +7,7 @@
 echo "=== 🚀 FDF Test Report: $(date) ==="
 echo ""
 
-for map in maps/test_maps/*.fdf; do
+for map in fdf_project/maps/test_maps/*.fdf; do
     echo "▶️ Running $map"
     timeout 0.5s ./fdf "$map" > result.log 2>&1
 

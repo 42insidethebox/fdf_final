@@ -17,33 +17,33 @@ NAME        = fdf
 CC          = gcc
 CFLAGS      = -Wall -Wextra -Werror
 
-MLX_DIR     = sources/minilibx-linux
-LIBFT_DIR   = sources/libft
+MLX_DIR     = minilibx-linux
+LIBFT_DIR   = fdf_project/sources/libft
 
-INCLUDES = -I./includes -I$(MLX_DIR) -I$(LIBFT_DIR) -Isources/get_next_line
+INCLUDES = -I./fdf_project/includes -I$(MLX_DIR) -I$(LIBFT_DIR) -Ifdf_project/sources/get_next_line
 
-SRCS        = main.c \
-              srcs/init_window.c \
-              srcs/map/init_map_struct.c \
-              srcs/map/init_map.c \
-              srcs/map/parse_map.c \
-              srcs/map/validate_map.c \
-              srcs/map/map_utils.c \
-              srcs/map/parse_point_utils.c \
-              srcs/map/parse_map_utils.c \
-              srcs/draw/draw_wireframe.c \
-              srcs/draw/draw_line.c \
-              srcs/draw/draw_pixel.c \
-              srcs/draw/image_utils.c \
-              srcs/events/hooks.c \
-              srcs/events/mouse_hook.c \
-              srcs/events/key_hook.c \
-              srcs/events/exit_hook.c \
-              srcs/utils/error.c \
-              srcs/utils/free_resources.c \
-              srcs/utils/checks.c \
-			  sources/get_next_line/get_next_line.c \
-			  sources/get_next_line/get_next_line_utils.c
+SRCS        =fdf_project/main.c \
+              fdf_project/srcs/init_window.c \
+              fdf_project/srcs/map/init_map_struct.c \
+              fdf_project/srcs/map/init_map.c \
+              fdf_project/srcs/map/parse_map.c \
+              fdf_project/srcs/map/validate_map.c \
+              fdf_project/srcs/map/map_utils.c \
+              fdf_project/srcs/map/parse_point.c \
+              fdf_project/srcs/map/parse_map_utils.c \
+              fdf_project/srcs/draw/draw_wireframe.c \
+              fdf_project/srcs/draw/draw_line.c \
+              fdf_project/srcs/draw/draw_pixel.c \
+              fdf_project/srcs/draw/image_utils.c \
+              fdf_project/srcs/events/hooks.c \
+              fdf_project/srcs/events/mouse_hook.c \
+              fdf_project/srcs/events/key_hook.c \
+              fdf_project/srcs/events/exit_hook.c \
+              fdf_project/srcs/utils/error.c \
+              fdf_project/srcs/utils/free_resources.c \
+              fdf_project/srcs/utils/checks.c \
+			  fdf_project/sources/get_next_line/get_next_line.c \
+			  fdf_project/sources/get_next_line/get_next_line_utils.c
 
 OBJS        = $(SRCS:.c=.o)
 
