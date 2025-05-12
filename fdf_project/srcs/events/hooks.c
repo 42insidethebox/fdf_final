@@ -17,4 +17,6 @@ void	setup_hooks(t_fdf *fdf)
 {
 	mlx_key_hook(fdf->mlx.win_ptr, key_hook, fdf);
 	mlx_hook(fdf->mlx.win_ptr, 17, 0, close_window, fdf);
+	mlx_mouse_hook(fdf->mlx.win_ptr, mouse_hook, fdf);
+
 }

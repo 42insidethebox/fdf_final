@@ -19,24 +19,6 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	prepare_map_data_ctx(t_parse_ctx ctx, const char *filename)
-{
-	int	fd;
-
-	*ctx.lines = malloc(sizeof(char *) * 10000);
-	if (!*ctx.lines)
-		error_exit("Error: lines malloc fail.\n");
-	fd = open_map_file(filename);
-	if (read_map_lines(fd, *ctx.lines, ctx.line_count, ctx.col_count))
-	{
-		close(fd);
-		error_exit("Error: Invalid line in map.\n");
-	}
-	close(fd);
-	if (init_map_struct(ctx.map, *ctx.line_count, *ctx.col_count))
-		error_exit("Error: init_map_struct failed.\n");
-}
-
 int	parse_map(const char *filename, t_map *map)
 {
 	int		fd;
@@ -44,7 +26,7 @@ int	parse_map(const char *filename, t_map *map)
 	int		col_count;
 	char	**lines;
 
-	lines = malloc(sizeof(char *) * 10000);
+	lines = ft_calloc(MAX_LINES, sizeof(char *));
 	if (!lines)
 		error_exit("Error: lines malloc fail.\n");
 	fd = open_map_file(filename);

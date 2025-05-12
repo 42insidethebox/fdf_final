@@ -24,7 +24,7 @@ int	mouse_hook(int button, int x, int y, void *param)
 		fdf->mlx.zoom += 2.0f;
 	else if (button == 5)
 		fdf->mlx.zoom -= 2.0f;
-	clear_image(&fdf->mlx, 1000, 800, 0x000000);
+	clear_image(&fdf->mlx, fdf->mlx.win_width, fdf->mlx.win_height, 0x000000);
 	draw_wireframe(&fdf->map, & fdf->mlx, fdf->projection);
 	render_image(&fdf->mlx);
 	return (0);

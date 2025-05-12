@@ -9,7 +9,7 @@ echo ""
 
 for map in fdf_project/maps/test_maps/*.fdf; do
     echo "▶️ Running $map"
-    timeout 0.5s ./fdf "$map" > result.log 2>&1
+    timeout 1.5s ./fdf "$map" > result.log 2>&1
 
     if grep -q "Error" result.log; then
         echo "❌ Error detected in $map"

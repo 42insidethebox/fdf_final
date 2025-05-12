@@ -18,10 +18,10 @@
 
 static void	handle_zoom_keys(t_fdf *fdf, int keycode)
 {
-	if (keycode == 24)
-		fdf->mlx.zoom += 2.0f;
-	if (keycode == 27)
-		fdf->mlx.zoom -= 2.0f;
+	if (keycode == 61 || keycode == 86)
+	fdf->mlx.zoom += 2.0f;
+	if (keycode == 45 || keycode == 82)
+	fdf->mlx.zoom -= 2.0f;
 }
 
 static void	handle_offset_keys(t_fdf *fdf, int keycode)
@@ -38,15 +38,15 @@ static void	handle_offset_keys(t_fdf *fdf, int keycode)
 
 static void	handle_projection_keys(t_fdf *fdf, int keycode)
 {
-	if (keycode == 35)
+	if (keycode == 'p')
 		fdf->projection = PROJ_PARALLEL;
-	if (keycode == 34)
+	if (keycode == 'i')
 		fdf->projection = PROJ_ISOMETRIC;
 }
 
 static void	redraw_scene(t_fdf *fdf)
 {
-	clear_image(&fdf->mlx, 1000, 800, 0x000000);
+	clear_image(&fdf->mlx, fdf->mlx.win_width,fdf->mlx.win_height, 0x000000);
 	draw_wireframe(&fdf->map, &fdf->mlx, fdf->projection);
 	render_image(&fdf->mlx);
 }
@@ -56,7 +56,7 @@ int	key_hook(int keycode, void *param)
 	t_fdf	*fdf;
 
 	fdf = (t_fdf *)param;
-	if (keycode == 53)
+	if (keycode == 53 || keycode == 65307)
 	{
 		free_all(&fdf->map, &fdf->mlx);
 		exit(0);

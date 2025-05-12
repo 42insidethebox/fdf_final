@@ -1,0 +1,22 @@
+==55984== Memcheck, a memory error detector
+==55984== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==55984== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==55984== Command: ./fdf fdf_project/maps/test_maps/20-60.fdf
+==55984== Parent PID: 55921
+==55984== 
+==55984== 
+==55984== HEAP SUMMARY:
+==55984==     in use at exit: 63,685 bytes in 70 blocks
+==55984==   total heap usage: 701 allocs, 631 frees, 192,852 bytes allocated
+==55984== 
+==55984== LEAK SUMMARY:
+==55984==    definitely lost: 0 bytes in 0 blocks
+==55984==    indirectly lost: 0 bytes in 0 blocks
+==55984==      possibly lost: 0 bytes in 0 blocks
+==55984==    still reachable: 63,685 bytes in 70 blocks
+==55984==         suppressed: 0 bytes in 0 blocks
+==55984== Reachable blocks (those to which a pointer was found) are not shown.
+==55984== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==55984== 
+==55984== For lists of detected and suppressed errors, rerun with: -s
+==55984== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

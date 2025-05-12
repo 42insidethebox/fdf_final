@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "libft.h"
 #include <unistd.h>
 
 int	check_args(int argc, char **argv)
@@ -21,23 +22,7 @@ int	check_args(int argc, char **argv)
 		write(1, "Usage: <filename> <mapfile.fdf>\n", 32);
 		return (0);
 	}
-	return (1);
-}
-
-int	is_numeric(const char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str || !*str)
-		return (0);
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i])
-	{
-		if (str[i] < '0' || str[i] > '9')
-			return (0);
-		i++;
-	}
+	if (!ft_strnstr(argv[1], ".fdf", ft_strlen(argv[1])))
+	error_exit("Error: file must end with .fdf\n");
 	return (1);
 }

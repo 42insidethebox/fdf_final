@@ -89,7 +89,7 @@ int	process_point(t_map *map, char *token,
 	int		color;
 	int		default_color;
 
-	default_color = 0xFFFFFF;
+	default_color = -1;
 	if (parse_point(token, &z, &color, default_color))
 		return (1);
 	map->matrix[row_idx][x] = z;

@@ -1,68 +1,85 @@
-===== File: ./srcs/draw/draw_line.c =====
+===== File: ./main.c =====
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 08:58:49 by procha-r          #+#    #+#             */
-/*   Updated: 2025/04/29 09:53:16 by procha-r         ###   ########.fr       */
+/*   Created: 2025/04/13 18:52:20 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/01 15:47:35 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+#include "utils.h"
+#include "map.h"
+#include "draw.h"
+#include "events.h"
+#include <stdio.h>
+
+int	main(int argc, char **argv)
+{
+	t_fdf	fdf;
+
+	if (!check_args(argc, argv))
+		return (1);
+	fdf.map.width = 0;
+	fdf.map.height = 0;
+	fdf.map.matrix = NULL;
+	fdf.map.z_min = 0;
+	fdf.map.z_max = 0;
+	fdf.projection = PROJ_ISOMETRIC;
+	if (parse_map(argv[1], &fdf.map) != 0)
+		return (1);
+	printf("Map dimensions: width = %d, height = %d\n",
+		fdf.map.width, fdf.map.height);
+	printf("Z range: z_min = %d, z_max = %d\n",
+		fdf.map.z_min, fdf.map.z_max);
+	init_window(&fdf.mlx, 800, 800, "FDF - Wireframe");
+	draw_wireframe(&fdf.map, &fdf.mlx, fdf.projection);
+	render_image(&fdf.mlx);
+	setup_hooks(&fdf);
+	mlx_loop(fdf.mlx.mlx_ptr);
+	free_all(&fdf.map, &fdf.mlx);
+	return (0);
+}
+
+
+
+===== File: ./tests/test_drawing.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test_drawing.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/01 12:43:33 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/01 12:44:20 by procha-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "draw.h"
-#include <stdlib.h>
+#include "utils.h"
 
-static void	init_bresenham(t_bresenham *b, t_point2 start, \
-	t_point2 end, int color)
+void	test_draw_pixel(void)
 {
-	b->x0 = (int)start.x;
-	b->y0 = (int)start.y;
-	b->x1 = (int)end.x;
-	b->y1 = (int)end.y;
-	b->dx = abs(b->x1 - b->x0);
-	b->dy = -abs(b->y1 - b->y0);
-	if (b->x0 < b->x1)
-		b->sx = 1;
-	else
-		b->sx = -1;
-	if (b->y0 < b->y1)
-		b->sy = 1;
-	else
-		b->sy = -1;
-	b->err = b->dx + b->dy;
-	b->color = color;
+	t_mlx	mlx_data;
+
+	mlx_data.addr = malloc(800 * 600 * 4);
+	mlx_data.line_len = 800 * 4;
+	mlx_data.bpp = 32;
+	put_pixel(&mlx_data, 100, 100, 0xFF00FF);
 }
 
-static void	step_bresenham(t_bresenham *b)
-{
-	b->e2 = 2 * b->err;
-	if (b->e2 >= b->dy)
-	{
-		b->err += b->dy;
-		b->x0 += b->sx;
-	}
-	if (b->e2 <= b->dx)
-	{
-		b->err += b->dx;
-		b->y0 += b->sy;
-	}
-}
 
-void	draw_line(t_mlx *mlx, t_point2 start, t_point2 end, int color)
-{
-	t_bresenham	b;
 
-	init_bresenham(&b, start, end, color);
-	while (1)
-	{
-		put_pixel(mlx, b.x0, b.y0, b.color);
-		if (b.x0 == b.x1 && b.y0 == b.y1)
-			break ;
-		step_bresenham(&b);
-	}
-}
+===== File: ./tests/test_projection.c =====
+
+
+
+===== File: ./tests/test_map_parsing.c =====
 
 
 
@@ -164,7 +181,7 @@ static void	draw_right(t_wire_args *args)
 	pt2.x = args->x + 1;
 	pt2.y = args->y;
 	pt2.z = args->map->matrix[args->y][args->x + 1];
-	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj), \
+	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj),
 		project_point(pt2, args->mlx, args->proj), args->color);
 }
 
@@ -179,8 +196,31 @@ static void	draw_bottom(t_wire_args *args)
 	pt2.x = args->x;
 	pt2.y = args->y + 1;
 	pt2.z = args->map->matrix[args->y + 1][args->x];
-	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj), \
+	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj),
 		project_point(pt2, args->mlx, args->proj), args->color);
+}
+
+static void	render_row(t_wire_args *args)
+{
+	int	z;
+	int	color;
+
+	args->x = 0;
+	while (args->x < args->map->width)
+	{
+		z = args->map->matrix[args->y][args->x];
+		color = args->map->colors[args->y][args->x];
+		if (color != -1)
+			args->color = color;
+		else
+			args->color = get_altitude_color(z,
+					args->map->z_min, args->map->z_max);
+		if (args->x < args->map->width - 1)
+			draw_right(args);
+		if (args->y < args->map->height - 1)
+			draw_bottom(args);
+		args->x++;
+	}
 }
 
 void	draw_wireframe(const t_map *map, t_mlx *mlx_data, int projection)
@@ -193,18 +233,76 @@ void	draw_wireframe(const t_map *map, t_mlx *mlx_data, int projection)
 	args.y = 0;
 	while (args.y < map->height)
 	{
-		args.x = 0;
-		while (args.x < map->width)
-		{
-			args.color = get_altitude_color(map->matrix[args.y][args.x], \
-				map->z_min, map->z_max);
-			if (args.x < map->width - 1)
-				draw_right(&args);
-			if (args.y < map->height - 1)
-				draw_bottom(&args);
-			args.x++;
-		}
+		render_row(&args);
 		args.y++;
+	}
+}
+
+
+
+===== File: ./srcs/draw/draw_line.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 08:58:49 by procha-r          #+#    #+#             */
+/*   Updated: 2025/04/29 09:53:16 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "draw.h"
+#include <stdlib.h>
+
+static void	init_bresenham(t_bresenham *b, t_point2 start, \
+	t_point2 end, int color)
+{
+	b->x0 = (int)start.x;
+	b->y0 = (int)start.y;
+	b->x1 = (int)end.x;
+	b->y1 = (int)end.y;
+	b->dx = abs(b->x1 - b->x0);
+	b->dy = -abs(b->y1 - b->y0);
+	if (b->x0 < b->x1)
+		b->sx = 1;
+	else
+		b->sx = -1;
+	if (b->y0 < b->y1)
+		b->sy = 1;
+	else
+		b->sy = -1;
+	b->err = b->dx + b->dy;
+	b->color = color;
+}
+
+static void	step_bresenham(t_bresenham *b)
+{
+	b->e2 = 2 * b->err;
+	if (b->e2 >= b->dy)
+	{
+		b->err += b->dy;
+		b->x0 += b->sx;
+	}
+	if (b->e2 <= b->dx)
+	{
+		b->err += b->dx;
+		b->y0 += b->sy;
+	}
+}
+
+void	draw_line(t_mlx *mlx, t_point2 start, t_point2 end, int color)
+{
+	t_bresenham	b;
+
+	init_bresenham(&b, start, end, color);
+	while (1)
+	{
+		put_pixel(mlx, b.x0, b.y0, b.color);
+		if (b.x0 == b.x1 && b.y0 == b.y1)
+			break ;
+		step_bresenham(&b);
 	}
 }
 
@@ -260,208 +358,6 @@ void	render_image(t_mlx *mlx)
 
 
 
-===== File: ./srcs/events/exit_hook.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   exit_hook.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pedroribeiro <pedroribeiro@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 12:41:44 by procha-r          #+#    #+#             */
-/*   Updated: 2025/04/13 13:06:45 by pedroribeir      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "events.h"
-#include "utils.h"
-#include <stdlib.h>
-
-int	close_window(void *param)
-{
-	t_fdf	*fdf;
-
-	fdf = (t_fdf *)param;
-	free_all(&fdf->map, &fdf->mlx);
-	exit(0);
-	return (0);
-}
-
-
-
-===== File: ./srcs/events/hooks.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 12:42:58 by procha-r          #+#    #+#             */
-/*   Updated: 2025/03/02 13:04:58 by procha-r         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "fdf.h"
-#include "events.h"
-
-void	setup_hooks(t_fdf *fdf)
-{
-	mlx_key_hook(fdf->mlx.win_ptr, key_hook, fdf);
-	mlx_hook(fdf->mlx.win_ptr, 17, 0, close_window, fdf);
-}
-
-
-
-===== File: ./srcs/events/key_hook.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   key_hook.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 12:44:49 by procha-r          #+#    #+#             */
-/*   Updated: 2025/04/13 19:08:39 by procha-r         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "fdf.h"
-#include "events.h"
-#include "utils.h"
-#include "draw.h"
-#include <stdlib.h>
-
-static void	handle_zoom_keys(t_fdf *fdf, int keycode)
-{
-	if (keycode == 24)
-		fdf->mlx.zoom += 2.0f;
-	if (keycode == 27)
-		fdf->mlx.zoom -= 2.0f;
-}
-
-static void	handle_offset_keys(t_fdf *fdf, int keycode)
-{
-	if (keycode == 123)
-		fdf->mlx.offset_x -= 20.0f;
-	if (keycode == 124)
-		fdf->mlx.offset_x += 20.0f;
-	if (keycode == 125)
-		fdf->mlx.offset_y += 20.0f;
-	if (keycode == 126)
-		fdf->mlx.offset_y -= 20.0f;
-}
-
-static void	handle_projection_keys(t_fdf *fdf, int keycode)
-{
-	if (keycode == 35)
-		fdf->projection = PROJ_PARALLEL;
-	if (keycode == 34)
-		fdf->projection = PROJ_ISOMETRIC;
-}
-
-static void	redraw_scene(t_fdf *fdf)
-{
-	clear_image(&fdf->mlx, 1000, 800, 0x000000);
-	draw_wireframe(&fdf->map, &fdf->mlx, fdf->projection);
-	render_image(&fdf->mlx);
-}
-
-int	key_hook(int keycode, void *param)
-{
-	t_fdf	*fdf;
-
-	fdf = (t_fdf *)param;
-	if (keycode == 53)
-	{
-		free_all(&fdf->map, &fdf->mlx);
-		exit(0);
-	}
-	handle_zoom_keys(fdf, keycode);
-	handle_offset_keys(fdf, keycode);
-	handle_projection_keys(fdf, keycode);
-	redraw_scene(fdf);
-	return (0);
-}
-
-
-
-===== File: ./srcs/events/mouse_hook.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mouse_hook.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 13:06:03 by procha-r          #+#    #+#             */
-/*   Updated: 2025/03/02 18:12:29 by procha-r         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "events.h"
-#include "draw.h"
-
-int	mouse_hook(int button, int x, int y, void *param)
-{
-	t_fdf	*fdf;
-
-	fdf = (t_fdf *)param;
-	(void)x;
-	(void)y;
-	if (button == 4)
-		fdf->mlx.zoom += 2.0f;
-	else if (button == 5)
-		fdf->mlx.zoom -= 2.0f;
-	clear_image(&fdf->mlx, 1000, 800, 0x000000);
-	draw_wireframe(&fdf->map, & fdf->mlx, fdf->projection);
-	render_image(&fdf->mlx);
-	return (0);
-}
-
-
-
-===== File: ./srcs/init_window.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_window.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:35:26 by procha-r          #+#    #+#             */
-/*   Updated: 2025/04/30 23:53:15 by procha-r         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "utils.h"
-#include "draw.h"
-#include "events.h"
-
-void	init_window(t_mlx *mlx_data, int width, int height, const char *title)
-{
-	mlx_data->mlx_ptr = mlx_init();
-	if (!mlx_data->mlx_ptr)
-		error_exit("Failed to initialize MLX\n");
-	mlx_data->win_ptr = mlx_new_window(mlx_data->mlx_ptr, width, \
-		height, (char *)title);
-	if (!mlx_data->win_ptr)
-	{
-		free_all(NULL, mlx_data);
-		error_exit("Failed to create window.\n");
-	}
-	mlx_data->zoom = 20.0;
-	mlx_data->offset_x = width / 2;
-	mlx_data->offset_y = height / 2;
-	mlx_data->angle_x = 0.0;
-	mlx_data->angle_y = 0.0;
-	mlx_data->win_width = width;
-	mlx_data->win_height = height;
-	create_image(mlx_data, width, height);
-}
-
-
-
 ===== File: ./srcs/map/init_map.c =====
 /* ************************************************************************** */
 /*                                                                            */
@@ -493,71 +389,6 @@ int	fill_matrix_row(t_map *map, char *line, int row_idx)
 		ret = 1;
 	ft_free_split(cols);
 	return (ret);
-}
-
-
-
-===== File: ./srcs/map/init_map_struct.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_map_struct.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 17:29:57 by procha-r          #+#    #+#             */
-/*   Updated: 2025/04/30 23:41:02 by procha-r         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "map.h"
-#include "utils.h"
-#include "libft.h"
-#include <stdlib.h>
-
-static void	rollback_partial_alloc(int **matrix, int rows)
-{
-	int	i;
-
-	i = 0;
-	while (i < rows)
-	{
-		free(matrix[i]);
-		i++;
-	}
-	free(matrix);
-}
-
-static int	allocate_matrix_rows(int **matrix, int height, int width)
-{
-	int	i;
-
-	i = 0;
-	while (i < height)
-	{
-		matrix[i] = ft_calloc(width, sizeof(int));
-		if (!matrix[i])
-		{
-			rollback_partial_alloc(matrix, i);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	init_map_struct(t_map *map, int height, int width)
-{
-	map->height = height;
-	map->width = width;
-	map->matrix = malloc(sizeof(int *) * height);
-	if (!map->matrix)
-		return (1);
-	if (allocate_matrix_rows(map->matrix, height, width))
-		return (1);
-	map->z_min = 0;
-	map->z_max = 0;
-	return (0);
 }
 
 
@@ -599,66 +430,97 @@ int	get_zmax(const t_map *map)
 
 
 
-===== File: ./srcs/map/parse_map.c =====
+===== File: ./srcs/map/init_map_struct.c =====
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_map.c                                        :+:      :+:    :+:   */
+/*   init_map_struct.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:02:43 by procha-r          #+#    #+#             */
-/*   Updated: 2025/05/01 02:14:19 by procha-r         ###   ########.fr       */
+/*   Created: 2025/04/29 17:29:57 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/10 18:52:00 by procha-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "map.h"
 #include "utils.h"
-#include "get_next_line.h"
-#include <fcntl.h>
+#include "libft.h"
 #include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdio.h>
 
-void	prepare_map_data_ctx(t_parse_ctx ctx, const char *filename)
+static void	rollback_partial_alloc(int **matrix, int rows)
 {
-	int	fd;
+	int	i;
 
-	*ctx.lines = malloc(sizeof(char *) * 10000);
-	if (!*ctx.lines)
-		error_exit("Error: lines malloc fail.\n");
-	fd = open_map_file(filename);
-	if (read_map_lines(fd, *ctx.lines, ctx.line_count, ctx.col_count))
+	if (!matrix)
+		return ;
+	i = 0;
+	while (i < rows)
 	{
-		close(fd);
-		error_exit("Error: Invalid line in map.\n");
+		free(matrix[i]);
+		i++;
 	}
-	close(fd);
-	if (init_map_struct(ctx.map, *ctx.line_count, *ctx.col_count))
-		error_exit("Error: init_map_struct failed.\n");
+	free(matrix);
 }
 
-int	parse_map(const char *filename, t_map *map)
+static int	allocate_matrix_rows(int **matrix, int height, int width)
 {
-	int		fd;
-	int		line_count;
-	int		col_count;
-	char	**lines;
+	int	i;
 
-	lines = malloc(sizeof(char *) * 10000);
-	if (!lines)
-		error_exit("Error: lines malloc fail.\n");
-	fd = open_map_file(filename);
-	if (read_map_lines(fd, lines, &line_count, &col_count))
+	i = 0;
+	while (i < height)
 	{
-		close(fd);
-		error_exit("Error: Invalid line in map.\n");
+		matrix[i] = ft_calloc(width, sizeof(int));
+		if (!matrix[i])
+		{
+			rollback_partial_alloc(matrix, i);
+			return (1);
+		}
+		i++;
 	}
-	close(fd);
-	if (init_map_struct(map, line_count, col_count))
-		error_exit("Error: init_map_struct failed.\n");
-	parse_lines_into_matrix(map, lines, line_count);
+	return (0);
+}
+
+static void	initialize_colors_to_default(int **colors, int height, int width)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			colors[y][x] = -1;
+			x++;
+		}
+		y++;
+	}
+}
+
+int	init_map_struct(t_map *map, int height, int width)
+{
+	map->height = height;
+	map->width = width;
+	map->matrix = malloc(sizeof(int *) * height);
+	map->colors = malloc(sizeof(int *) * height);
+	if (!map->matrix || !map->colors)
+	{
+		free(map->matrix);
+		free(map->colors);
+		return (1);
+	}
+	if (allocate_matrix_rows(map->matrix, height, width)
+		|| allocate_matrix_rows(map->colors, height, width))
+	{
+		rollback_partial_alloc(map->matrix, height);
+		rollback_partial_alloc(map->colors, height);
+		return (1);
+	}
+	initialize_colors_to_default(map->colors, height, width);
+	map->z_min = 0;
+	map->z_max = 0;
 	return (0);
 }
 
@@ -761,6 +623,53 @@ void	parse_lines_into_matrix(t_map *map, char **lines, int line_count)
 		i++;
 	}
 	free(lines);
+}
+
+
+
+===== File: ./srcs/map/parse_map.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_map.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 18:02:43 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/07 22:48:09 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "map.h"
+#include "utils.h"
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+
+int	parse_map(const char *filename, t_map *map)
+{
+	int		fd;
+	int		line_count;
+	int		col_count;
+	char	**lines;
+
+	lines = malloc(sizeof(char *) * 10000);
+	if (!lines)
+		error_exit("Error: lines malloc fail.\n");
+	fd = open_map_file(filename);
+	if (read_map_lines(fd, lines, &line_count, &col_count))
+	{
+		close(fd);
+		error_exit("Error: Invalid line in map.\n");
+	}
+	close(fd);
+	if (init_map_struct(map, line_count, col_count))
+		error_exit("Error: init_map_struct failed.\n");
+	parse_lines_into_matrix(map, lines, line_count);
+	return (0);
 }
 
 
@@ -915,7 +824,7 @@ int	process_point(t_map *map, char *token,
 	int		color;
 	int		default_color;
 
-	default_color = 0xFFFFFF;
+	default_color = -1;
 	if (parse_point(token, &z, &color, default_color))
 		return (1);
 	map->matrix[row_idx][x] = z;
@@ -940,6 +849,65 @@ int	process_row_points(t_map *map,
 
 
 
+===== File: ./srcs/utils/free_resources.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_resources.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pedroribeiro <pedroribeiro@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 18:32:06 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/10 19:04:44 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include "utils.h"
+
+void	free_map(t_map *map)
+{
+	int	i;
+
+	if (map->matrix)
+	{
+		i = 0;
+		while (i < map->height)
+		{
+			free(map->matrix[i]);
+			i++;
+		}
+		free(map->matrix);
+		map->matrix = NULL;
+	}
+	if (map->colors)
+	{
+		i = 0;
+		while (i < map->height)
+		{
+			free(map->colors[i]);
+			i++;
+		}
+		free(map->colors);
+		map->colors = NULL;
+	}
+}
+
+void	free_all(t_map *map, t_mlx *mlx_data)
+{
+	if (map)
+		free_map(map);
+	if (mlx_data)
+	{
+		if (mlx_data->img_ptr)
+			mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->img_ptr);
+		if (mlx_data->win_ptr)
+			mlx_destroy_window(mlx_data->mlx_ptr, mlx_data->win_ptr);
+	}
+}
+
+
+
 ===== File: ./srcs/utils/checks.c =====
 /* ************************************************************************** */
 /*                                                                            */
@@ -954,6 +922,7 @@ int	process_row_points(t_map *map,
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "libft.h"
 #include <unistd.h>
 
 int	check_args(int argc, char **argv)
@@ -964,6 +933,8 @@ int	check_args(int argc, char **argv)
 		write(1, "Usage: <filename> <mapfile.fdf>\n", 32);
 		return (0);
 	}
+	if (!ft_strnstr(argv[1], ".fdf", ft_strlen(argv[1])))
+	error_exit("Error: file must end with .fdf\n");
 	return (1);
 }
 
@@ -1015,134 +986,206 @@ void	error_exit(const char *message)
 
 
 
-===== File: ./srcs/utils/free_resources.c =====
+===== File: ./srcs/events/key_hook.c =====
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_resources.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pedroribeiro <pedroribeiro@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:32:06 by procha-r          #+#    #+#             */
-/*   Updated: 2025/04/13 13:11:53 by pedroribeir      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include <stdlib.h>
-#include "utils.h"
-
-void	free_map(t_map *map)
-{
-	int	i;
-
-	if (!map->matrix)
-		return ;
-	i = 0;
-	while (i < map->height)
-	{
-		free(map->matrix[i]);
-		i++;
-	}
-	free(map->matrix);
-	map->matrix = NULL;
-}
-
-void	free_all(t_map *map, t_mlx *mlx_data)
-{
-	if (map)
-		free_map(map);
-	if (mlx_data)
-	{
-		if (mlx_data->img_ptr)
-			mlx_destroy_image(mlx_data->mlx_ptr, mlx_data->img_ptr);
-		if (mlx_data->win_ptr)
-			mlx_destroy_window(mlx_data->mlx_ptr, mlx_data->win_ptr);
-	}
-}
-
-
-
-===== File: ./tests/test_drawing.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test_drawing.c                                     :+:      :+:    :+:   */
+/*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/01 12:43:33 by procha-r          #+#    #+#             */
-/*   Updated: 2025/05/01 12:44:20 by procha-r         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "draw.h"
-#include "utils.h"
-
-void	test_draw_pixel(void)
-{
-	t_mlx	mlx_data;
-
-	mlx_data.addr = malloc(800 * 600 * 4);
-	mlx_data.line_len = 800 * 4;
-	mlx_data.bpp = 32;
-	put_pixel(&mlx_data, 100, 100, 0xFF00FF);
-}
-
-
-
-===== File: ./tests/test_map_parsing.c =====
-
-
-
-===== File: ./tests/test_projection.c =====
-
-
-
-===== File: ./main.c =====
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/13 18:52:20 by procha-r          #+#    #+#             */
-/*   Updated: 2025/05/01 15:47:35 by procha-r         ###   ########.fr       */
+/*   Created: 2025/03/02 12:44:49 by procha-r          #+#    #+#             */
+/*   Updated: 2025/04/13 19:08:39 by procha-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "events.h"
 #include "utils.h"
-#include "map.h"
+#include "draw.h"
+#include <stdlib.h>
+
+static void	handle_zoom_keys(t_fdf *fdf, int keycode)
+{
+	if (keycode == 61 || keycode == 86)
+	fdf->mlx.zoom += 2.0f;
+	if (keycode == 45 || keycode == 82)
+	fdf->mlx.zoom -= 2.0f;
+}
+
+static void	handle_offset_keys(t_fdf *fdf, int keycode)
+{
+	if (keycode == 123)
+		fdf->mlx.offset_x -= 20.0f;
+	if (keycode == 124)
+		fdf->mlx.offset_x += 20.0f;
+	if (keycode == 125)
+		fdf->mlx.offset_y += 20.0f;
+	if (keycode == 126)
+		fdf->mlx.offset_y -= 20.0f;
+}
+
+static void	handle_projection_keys(t_fdf *fdf, int keycode)
+{
+	if (keycode == 35)
+		fdf->projection = PROJ_PARALLEL;
+	if (keycode == 34)
+		fdf->projection = PROJ_ISOMETRIC;
+}
+
+static void	redraw_scene(t_fdf *fdf)
+{
+	clear_image(&fdf->mlx, fdf->mlx.win_width,fdf->mlx.win_height, 0x000000);
+	draw_wireframe(&fdf->map, &fdf->mlx, fdf->projection);
+	render_image(&fdf->mlx);
+}
+
+int	key_hook(int keycode, void *param)
+{
+	t_fdf	*fdf;
+
+	fdf = (t_fdf *)param;
+	if (keycode == 53 || keycode == 65307)
+	{
+		free_all(&fdf->map, &fdf->mlx);
+		exit(0);
+	}
+	handle_zoom_keys(fdf, keycode);
+	handle_offset_keys(fdf, keycode);
+	handle_projection_keys(fdf, keycode);
+	redraw_scene(fdf);
+	return (0);
+}
+
+
+
+===== File: ./srcs/events/mouse_hook.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mouse_hook.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 13:06:03 by procha-r          #+#    #+#             */
+/*   Updated: 2025/03/02 18:12:29 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "events.h"
+#include "draw.h"
+
+int	mouse_hook(int button, int x, int y, void *param)
+{
+	t_fdf	*fdf;
+
+	fdf = (t_fdf *)param;
+	(void)x;
+	(void)y;
+	if (button == 4)
+		fdf->mlx.zoom += 2.0f;
+	else if (button == 5)
+		fdf->mlx.zoom -= 2.0f;
+	clear_image(&fdf->mlx, fdf->mlx.win_width, fdf->mlx.win_height, 0x000000);
+	draw_wireframe(&fdf->map, & fdf->mlx, fdf->projection);
+	render_image(&fdf->mlx);
+	return (0);
+}
+
+
+
+===== File: ./srcs/events/hooks.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hooks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 12:42:58 by procha-r          #+#    #+#             */
+/*   Updated: 2025/03/02 13:04:58 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+#include "events.h"
+
+void	setup_hooks(t_fdf *fdf)
+{
+	mlx_key_hook(fdf->mlx.win_ptr, key_hook, fdf);
+	mlx_hook(fdf->mlx.win_ptr, 17, 0, close_window, fdf);
+	mlx_mouse_hook(fdf->mlx.win_ptr, mouse_hook, fdf);
+
+}
+
+
+
+===== File: ./srcs/events/exit_hook.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit_hook.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pedroribeiro <pedroribeiro@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 12:41:44 by procha-r          #+#    #+#             */
+/*   Updated: 2025/04/13 13:06:45 by pedroribeir      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "events.h"
+#include "utils.h"
+#include <stdlib.h>
+
+int	close_window(void *param)
+{
+	t_fdf	*fdf;
+
+	fdf = (t_fdf *)param;
+	free_all(&fdf->map, &fdf->mlx);
+	exit(0);
+	return (0);
+}
+
+
+
+===== File: ./srcs/init_window.c =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_window.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 18:35:26 by procha-r          #+#    #+#             */
+/*   Updated: 2025/04/30 23:53:15 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "utils.h"
 #include "draw.h"
 #include "events.h"
-#include <stdio.h>
 
-int	main(int argc, char **argv)
+void	init_window(t_mlx *mlx_data, int width, int height, const char *title)
 {
-	t_fdf	fdf;
-
-	if (!check_args(argc, argv))
-		return (1);
-	fdf.map.width = 0;
-	fdf.map.height = 0;
-	fdf.map.matrix = NULL;
-	fdf.map.z_min = 0;
-	fdf.map.z_max = 0;
-	fdf.projection = PROJ_ISOMETRIC;
-	if (parse_map(argv[1], &fdf.map) != 0)
-		return (1);
-	printf("Map dimensions: width = %d, height = %d\n",
-		fdf.map.width, fdf.map.height);
-	printf("Z range: z_min = %d, z_max = %d\n",
-		fdf.map.z_min, fdf.map.z_max);
-	init_window(&fdf.mlx, 800, 800, "FDF - Wireframe");
-	draw_wireframe(&fdf.map, &fdf.mlx, fdf.projection);
-	render_image(&fdf.mlx);
-	setup_hooks(&fdf);
-	mlx_loop(fdf.mlx.mlx_ptr);
-	free_all(&fdf.map, &fdf.mlx);
-	return (0);
+	mlx_data->mlx_ptr = mlx_init();
+	if (!mlx_data->mlx_ptr)
+		error_exit("Failed to initialize MLX\n");
+	mlx_data->win_ptr = mlx_new_window(mlx_data->mlx_ptr, width, \
+		height, (char *)title);
+	if (!mlx_data->win_ptr)
+	{
+		free_all(NULL, mlx_data);
+		error_exit("Failed to create window.\n");
+	}
+	mlx_data->zoom = 20.0;
+	mlx_data->offset_x = width / 2;
+	mlx_data->offset_y = height / 2;
+	mlx_data->angle_x = 0.0;
+	mlx_data->angle_y = 0.0;
+	mlx_data->win_width = width;
+	mlx_data->win_height = height;
+	create_image(mlx_data, width, height);
 }
 
 

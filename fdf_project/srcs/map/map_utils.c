@@ -21,13 +21,3 @@ void	update_min_max_z(t_map *map, int z_value)
 	if (z_value > map->z_max)
 		map->z_max = z_value;
 }
-
-int	get_z_min(const t_map *map)
-{
-	return (map->z_min);
-}
-
-int	get_zmax(const t_map *map)
-{
-	return (map->z_max);
-}

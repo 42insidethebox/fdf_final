@@ -1,0 +1,454 @@
+==56719== Memcheck, a memory error detector
+==56719== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==56719== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==56719== Command: ./fdf fdf_project/maps/test_maps/50-4.fdf
+==56719== Parent PID: 56637
+==56719== 
+==56719== 
+==56719== HEAP SUMMARY:
+==56719==     in use at exit: 62,437 bytes in 64 blocks
+==56719==   total heap usage: 2,937 allocs, 2,873 frees, 277,609 bytes allocated
+==56719== 
+==56719== 3 bytes in 1 blocks are still reachable in loss record 1 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4B945DE: strdup (strdup.c:42)
+==56719==    by 0x48BBD3A: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 8 bytes in 1 blocks are still reachable in loss record 2 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4B945DE: strdup (strdup.c:42)
+==56719==    by 0x48B8773: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x487C83F: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 8 bytes in 1 blocks are still reachable in loss record 3 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x487AB16: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C9F6: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 10 bytes in 1 blocks are still reachable in loss record 4 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4B945DE: strdup (strdup.c:42)
+==56719==    by 0x48B8773: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x4935783: XkbUseExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC90D: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 16 bytes in 1 blocks are still reachable in loss record 5 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4D0B77D: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0C4B4: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x48CF6F9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BBD5C: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 16 bytes in 1 blocks are still reachable in loss record 6 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B225B: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC03F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 21 bytes in 1 blocks are still reachable in loss record 7 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC237: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 24 bytes in 1 blocks are still reachable in loss record 8 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x487C021: XextCreateExtension (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C4C4: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C9DF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 24 bytes in 1 blocks are still reachable in loss record 9 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4B945DE: strdup (strdup.c:42)
+==56719==    by 0x48B8773: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x487C83F: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C502: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C9DF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 24 bytes in 1 blocks are still reachable in loss record 10 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x487CA10: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 29 bytes in 1 blocks are still reachable in loss record 11 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B3CAB: _XUpdateAtomCache (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48B7066: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CF12: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 32 bytes in 1 blocks are still reachable in loss record 12 of 48
+==56719==    at 0x4851E10: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4D0FAA2: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0FB9A: xcb_get_extension_data (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0FC5E: xcb_prefetch_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0FCD5: xcb_get_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x48BC69E: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 32 bytes in 1 blocks are still reachable in loss record 13 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4D082B7: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D08AF5: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D08F5F: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0A1AD: xcb_wait_for_reply (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0FBEA: xcb_get_extension_data (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0FC5E: xcb_prefetch_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0FCD5: xcb_get_maximum_request_length (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x48BC69E: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 32 bytes in 1 blocks are still reachable in loss record 14 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x487C812: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 32 bytes in 1 blocks are still reachable in loss record 15 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x487C812: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C502: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C9DF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 33 bytes in 1 blocks are still reachable in loss record 16 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B3CAB: _XUpdateAtomCache (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48B7066: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CEFD: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 40 bytes in 1 blocks are still reachable in loss record 17 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B22A5: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC03F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 40 bytes in 1 blocks are still reachable in loss record 18 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48CFA29: _XPollfdCacheInit (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC04F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 48 bytes in 1 blocks are still reachable in loss record 19 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48CF680: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BBD5C: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 48 bytes in 1 blocks are still reachable in loss record 20 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48CF695: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BBD5C: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 48 bytes in 1 blocks are still reachable in loss record 21 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B2294: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC03F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 48 bytes in 1 blocks are still reachable in loss record 22 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B22B5: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC03F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 72 bytes in 1 blocks are still reachable in loss record 23 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC0F3: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 112 bytes in 1 blocks are still reachable in loss record 24 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48CF583: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BBD5C: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 112 bytes in 1 blocks are still reachable in loss record 25 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC4B9: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 128 bytes in 1 blocks are still reachable in loss record 26 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC39B: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 128 bytes in 1 blocks are still reachable in loss record 27 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B8763: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x4935783: XkbUseExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC90D: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 128 bytes in 1 blocks are still reachable in loss record 28 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B8763: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x487C83F: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 128 bytes in 1 blocks are still reachable in loss record 29 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B8763: XInitExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x487C83F: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C502: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C9DF: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 136 bytes in 1 blocks are still reachable in loss record 30 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x10CE5E: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 145 bytes in 1 blocks are still reachable in loss record 31 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC97A: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 152 bytes in 1 blocks are still reachable in loss record 32 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x493597E: XkbUseExtension (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC90D: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 160 bytes in 1 blocks are still reachable in loss record 33 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48A8B28: XCreateGC (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC71F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 168 bytes in 1 blocks are still reachable in loss record 34 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC2D3: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 192 bytes in 1 blocks are still reachable in loss record 35 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B2276: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BC03F: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 208 bytes in 1 blocks are still reachable in loss record 36 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x487AAC9: ??? (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x487C9F6: XextAddDisplay (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x4881C44: XShmQueryVersion (in /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0)
+==56719==    by 0x10CC91: mlx_int_deal_shm (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10CF20: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 208 bytes in 1 blocks are still reachable in loss record 37 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48D1CED: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6953: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D83F0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D875F: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10D3C0: mlx_int_wait_first_expose (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10D0C9: mlx_new_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA4D: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 208 bytes in 1 blocks are still reachable in loss record 38 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48D1CED: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6953: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6AB1: _XEventsQueued (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48A9A95: XFlush (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10C126: render_image (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A9A4: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 416 bytes in 2 blocks are still reachable in loss record 39 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48D1CED: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6953: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D8A0C: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D8FE4: XSync (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10D5F8: mlx_int_new_xshm_image (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10D850: mlx_new_image (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10C039: create_image (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AB0F: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 512 bytes in 1 blocks are still reachable in loss record 40 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48B6EF6: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48B6F9C: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CEFD: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 624 bytes in 3 blocks are still reachable in loss record 41 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48D1CED: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6953: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D8439: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D8743: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10D3C0: mlx_int_wait_first_expose (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10D0C9: mlx_new_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA4D: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 832 bytes in 4 blocks are still reachable in loss record 42 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48D1CED: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6953: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D83F0: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D8743: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10D3C0: mlx_int_wait_first_expose (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10D0C9: mlx_new_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA4D: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 2,080 bytes in 10 blocks are still reachable in loss record 43 of 48
+==56719==    at 0x484A858: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48D1CED: _XEnq (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D6953: ??? (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D8439: _XReadEvents (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48D875F: XWindowEvent (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10D3C0: mlx_int_wait_first_expose (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10D0C9: mlx_new_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA4D: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 3,956 bytes in 1 blocks are still reachable in loss record 44 of 48
+==56719==    at 0x4851E10: realloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4D0B988: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0C4B4: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x48CF6F9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BBD5C: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 4,720 bytes in 1 blocks are still reachable in loss record 45 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BBD26: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 8,736 bytes in 2 blocks are still reachable in loss record 46 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC54D: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 16,384 bytes in 1 blocks are still reachable in loss record 47 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x48BC09D: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== 21,176 bytes in 1 blocks are still reachable in loss record 48 of 48
+==56719==    at 0x4851BE3: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==56719==    by 0x4D0B6A6: xcb_connect_to_fd (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x4D0C4B4: xcb_connect_to_display_with_auth_info (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==56719==    by 0x48CF6F9: _XConnectXCB (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x48BBD5C: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.4.0)
+==56719==    by 0x10CE76: mlx_init (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10AA12: init_window (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719==    by 0x10A978: main (in /home/procha-r/Documents/tronc_commun/fdf/fdf)
+==56719== 
+==56719== LEAK SUMMARY:
+==56719==    definitely lost: 0 bytes in 0 blocks
+==56719==    indirectly lost: 0 bytes in 0 blocks
+==56719==      possibly lost: 0 bytes in 0 blocks
+==56719==    still reachable: 62,437 bytes in 64 blocks
+==56719==         suppressed: 0 bytes in 0 blocks
+==56719== 
+==56719== For lists of detected and suppressed errors, rerun with: -s
+==56719== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

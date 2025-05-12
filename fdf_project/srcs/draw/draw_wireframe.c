@@ -68,7 +68,7 @@ static void	draw_right(t_wire_args *args)
 	pt2.x = args->x + 1;
 	pt2.y = args->y;
 	pt2.z = args->map->matrix[args->y][args->x + 1];
-	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj), \
+	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj),
 		project_point(pt2, args->mlx, args->proj), args->color);
 }
 
@@ -83,8 +83,31 @@ static void	draw_bottom(t_wire_args *args)
 	pt2.x = args->x;
 	pt2.y = args->y + 1;
 	pt2.z = args->map->matrix[args->y + 1][args->x];
-	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj), \
+	draw_line(args->mlx, project_point(pt1, args->mlx, args->proj),
 		project_point(pt2, args->mlx, args->proj), args->color);
+}
+
+static void	render_row(t_wire_args *args)
+{
+	int	z;
+	int	color;
+
+	args->x = 0;
+	while (args->x < args->map->width)
+	{
+		z = args->map->matrix[args->y][args->x];
+		color = args->map->colors[args->y][args->x];
+		if (color != -1)
+			args->color = color;
+		else
+			args->color = get_altitude_color(z,
+					args->map->z_min, args->map->z_max);
+		if (args->x < args->map->width - 1)
+			draw_right(args);
+		if (args->y < args->map->height - 1)
+			draw_bottom(args);
+		args->x++;
+	}
 }
 
 void	draw_wireframe(const t_map *map, t_mlx *mlx_data, int projection)
@@ -97,17 +120,7 @@ void	draw_wireframe(const t_map *map, t_mlx *mlx_data, int projection)
 	args.y = 0;
 	while (args.y < map->height)
 	{
-		args.x = 0;
-		while (args.x < map->width)
-		{
-			args.color = get_altitude_color(map->matrix[args.y][args.x], \
-				map->z_min, map->z_max);
-			if (args.x < map->width - 1)
-				draw_right(&args);
-			if (args.y < map->height - 1)
-				draw_bottom(&args);
-			args.x++;
-		}
+		render_row(&args);
 		args.y++;
 	}
 }

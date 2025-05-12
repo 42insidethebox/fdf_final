@@ -40,9 +40,10 @@ typedef enum e_projection
 
 typedef struct s_map
 {
+	int		**matrix;
+	int		**colors;
 	int		width;
 	int		height;
-	int		**matrix;
 	int		z_min;
 	int		z_max;
 }	t_map;
