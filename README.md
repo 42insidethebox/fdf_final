@@ -35,7 +35,7 @@ title: 42 Norms Snapshot
 - No `for` loops (⚠️ *use `while` only*).  
 - No function declaration **and** assignment on the same line.  
 - Strict header guards + includes.  
-- Split responsibilities across modules (no “god” files).
+- Split responsibilities across modules (no monolithic files).
 ```
 
 ---
@@ -53,7 +53,7 @@ title: 42 Norms Snapshot
 
 # **Design Goals & 42 Norms** 🎯
 
-- ✅ **Norminette clean** (all the files created by me pass strict code style norm eval! The ones provided by MiniLibX are expected not to.)
+- ✅ **Norminette clean** (all the proprietary code pass strict code style norm eval! The ones provided by MiniLibX are expected not to.)
 - ✅ **Deterministic rendering** (Bresenham, integer-friendly state)
 - ✅ **Safe memory model** (centralized free paths, no leaks)
 - ✅ **Predictable input parsing** (strict validation, helpful errors)
