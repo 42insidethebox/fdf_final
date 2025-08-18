@@ -1,0 +1,722 @@
+===== File: ./includes/utils.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 16:45:57 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/01 12:32:12 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef UTILS_H
+# define UTILS_H
+
+# include "fdf.h"
+
+// error.c
+void			error_exit(const char *message);
+
+// free_resources.c
+void			free_map(t_map *map);
+void			free_all(t_map *map, t_mlx *mlx_data);
+
+// checks.c
+int				check_args(int argc, char **argv);
+int				is_numeric(const char *str);
+void			init_window(t_mlx *mlx_data, int width,
+					int height, const char *title);
+
+// extended libft
+char			*ft_strchr(const char *s, int c);
+long			ft_atol(const char *str);
+char			**ft_split(char const *s, char c);
+void			ft_free_split(char **split);
+
+#endif
+
+
+
+===== File: ./includes/map.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/01 12:27:08 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/01 12:32:27 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef MAP_H
+# define MAP_H
+
+# include <string.h>
+# include "fdf.h"
+
+// parse_map.c
+int				parse_map(const char *filename, t_map *map);
+
+// validate_map.c
+int				validate_line(const char *line);
+int				count_columns(const char *line);
+
+// init_map.c
+int				init_map_struct(t_map *map, int height, int width);
+int				allocate_matrix(t_map *map);
+int				fill_matrix_row(t_map *map, char *line, int row_index);
+
+// map_utils.c
+void			update_min_max_z(t_map *map, int z_value);
+int				get_z_min(const t_map *map);
+int				get_z_max(const t_map *map);
+
+// point parsing
+int				atoi_base_hex(const char *s, int default_color);
+void			split_point_token(const char *token,
+					char **h_str, char **c_str, char **comma);
+int				parse_point(const char *token, int *z,
+					int *color, int default_color);
+int				process_point(t_map *map, char *token,
+					int x, int row_idx);
+int				process_row_points(t_map *map,
+					char **cols, int row_idx);
+
+// parse_ctx struct
+typedef struct s_parse_ctx
+{
+	t_map			*map;
+	char			***lines;
+	int				*line_count;
+	int				*col_count;
+}					t_parse_ctx;
+
+// map_read.c
+void			strip_newline(char *line);
+int				open_map_file(const char *filename);
+int				read_map_lines(int fd, char **lines,
+					int *line_count, int *col_count);
+void			parse_lines_into_matrix(t_map *map,
+					char **lines, int line_count);
+void			prepare_map_data_ctx(t_parse_ctx ctx,
+					const char *filename);
+
+#endif
+
+
+
+===== File: ./includes/events.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   events.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/13 14:36:27 by pedroribeir       #+#    #+#             */
+/*   Updated: 2025/05/01 12:32:39 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef EVENTS_H
+# define EVENTS_H
+
+# include "fdf.h"
+
+// hooks.c
+void			setup_hooks(t_fdf *fdf);
+
+// mouse_hook.c
+int				mouse_hook(int button, int x, int y, void *param);
+
+// key_hook.c
+int				key_hook(int keycode, void *param);
+
+// exit_hook.c
+int				close_window(void *param);
+
+#endif
+
+
+
+===== File: ./includes/project.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   project.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/01 12:27:23 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/01 12:34:55 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef PROJECT_H
+# define PROJECT_H
+
+# include "fdf.h"
+
+// projection_iso.c
+t_point2	project_iso(t_point3 p, const t_map *map, const t_mlx *mlx_data);
+
+// projection_bonus.c
+t_point2	project_parallel(t_point3 p, const t_map *map, \
+	const t_mlx *mlx_data);
+t_point2	project_conic(t_point3 p, const t_map *map, const t_mlx *mlx_data);
+
+#endif
+
+
+
+===== File: ./includes/draw.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/13 14:36:22 by pedroribeir       #+#    #+#             */
+/*   Updated: 2025/05/01 12:29:11 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef DRAW_H
+# define DRAW_H
+
+# include "fdf.h"
+
+typedef struct s_bresenham
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	color;
+}	t_bresenham;
+
+typedef struct s_wire_args
+{
+	t_mlx			*mlx;
+	const t_map		*map;
+	int				x;
+	int				y;
+	int				color;
+	int				proj;
+}	t_wire_args;
+
+// draw_wireframe.c
+void	draw_wireframe(const t_map *map, t_mlx *mlx_data, int projection);
+
+// draw_line.c
+void	draw_line(t_mlx *mlx_data, t_point2 start, t_point2 end, int color);
+
+// draw_pixel.c
+void	put_pixel(t_mlx *mlx_data, int x, int y, int color);
+
+// image_utils.c
+void	create_image(t_mlx *mlx_data, int width, int height);
+void	clear_image(t_mlx *mlx, int width, int height, int color);
+void	render_image(t_mlx *mlx_data);
+
+#endif
+
+
+
+===== File: ./includes/fdf.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/02 09:44:09 by procha-r          #+#    #+#             */
+/*   Updated: 2025/05/01 12:31:33 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FDF_H
+# define FDF_H
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <math.h>
+# include "mlx.h"
+
+typedef struct s_point3
+{
+	float	x;
+	float	y;
+	float	z;
+}	t_point3;
+
+typedef struct s_point2
+{
+	float	x;
+	float	y;
+}	t_point2;
+
+typedef enum e_projection
+{
+	PROJ_PARALLEL = 0,
+	PROJ_ISOMETRIC
+}	t_projection;
+
+typedef struct s_map
+{
+	int		width;
+	int		height;
+	int		**matrix;
+	int		z_min;
+	int		z_max;
+}	t_map;
+
+typedef struct s_mlx
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*img_ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		win_width;
+	int		win_height;
+	float	zoom;
+	float	offset_x;
+	float	offset_y;
+	float	angle_x;
+	float	angle_y;
+}	t_mlx;
+
+typedef struct s_fdf
+{
+	t_map			map;
+	t_mlx			mlx;
+	t_projection	projection;
+}	t_fdf;
+
+int	init_map_struct(t_map *map, int height, int width);
+
+#endif
+
+
+
+===== File: ./sources/minilibx-linux/mlx.h =====
+/*
+** mlx.h for MinilibX in 
+** 
+** Made by Charlie Root
+** Login   <ol@epitech.net>
+** 
+** Started on  Mon Jul 31 16:37:50 2000 Charlie Root
+** Last update Tue May 15 16:23:28 2007 Olivier Crouzet
+*/
+
+/*
+**   MinilibX -  Please report bugs
+*/
+
+
+/*
+** FR msg - FR msg - FR msg
+**
+** La MinilibX utilise 2 librairies supplementaires qu'il
+**      est necessaire de rajouter a la compilation :
+**   -lmlx -lXext -lX11
+**
+** La MinilibX permet le chargement des images de type Xpm.
+** Notez que cette implementation est incomplete.
+** Merci de communiquer tout probleme de chargement d'image
+** de ce type.
+*/
+
+
+#ifndef MLX_H
+
+#define	MLX_H
+
+
+void	*mlx_init();
+/*
+**  needed before everything else.
+**  return (void *)0 if failed
+*/
+
+
+/*
+** Basic actions
+*/
+
+void	*mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title);
+/*
+**  return void *0 if failed
+*/
+int	mlx_clear_window(void *mlx_ptr, void *win_ptr);
+int	mlx_pixel_put(void *mlx_ptr, void *win_ptr, int x, int y, int color);
+/*
+**  origin for x & y is top left corner of the window
+**  y down is positive
+**  color is 0x00RRGGBB
+*/
+
+
+/*
+** Image stuff
+*/
+
+void	*mlx_new_image(void *mlx_ptr,int width,int height);
+/*
+**  return void *0 if failed
+**  obsolete : image2 data is stored using bit planes
+**  void	*mlx_new_image2(void *mlx_ptr,int width,int height);
+*/
+char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
+			   int *size_line, int *endian);
+/*
+**  endian : 0 = sever X is little endian, 1 = big endian
+**  for mlx_new_image2, 2nd arg of mlx_get_data_addr is number_of_planes
+*/
+int	mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
+				int x, int y);
+int	mlx_get_color_value(void *mlx_ptr, int color);
+
+
+/*
+** dealing with Events
+*/
+
+int	mlx_mouse_hook (void *win_ptr, int (*funct_ptr)(), void *param);
+int	mlx_key_hook (void *win_ptr, int (*funct_ptr)(), void *param);
+int	mlx_expose_hook (void *win_ptr, int (*funct_ptr)(), void *param);
+
+int	mlx_loop_hook (void *mlx_ptr, int (*funct_ptr)(), void *param);
+int	mlx_loop (void *mlx_ptr);
+int mlx_loop_end (void *mlx_ptr);
+
+/*
+**  hook funct are called as follow :
+**
+**   expose_hook(void *param);
+**   key_hook(int keycode, void *param);
+**   mouse_hook(int button, int x,int y, void *param);
+**   loop_hook(void *param);
+**
+*/
+
+
+/*
+**  Usually asked...
+*/
+
+int	mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
+		       char *string);
+void	mlx_set_font(void *mlx_ptr, void *win_ptr, char *name);
+void	*mlx_xpm_to_image(void *mlx_ptr, char **xpm_data,
+			  int *width, int *height);
+void	*mlx_xpm_file_to_image(void *mlx_ptr, char *filename,
+			       int *width, int *height);
+int	mlx_destroy_window(void *mlx_ptr, void *win_ptr);
+
+int	mlx_destroy_image(void *mlx_ptr, void *img_ptr);
+
+int	mlx_destroy_display(void *mlx_ptr);
+
+/*
+**  generic hook system for all events, and minilibX functions that
+**    can be hooked. Some macro and defines from X11/X.h are needed here.
+*/
+
+int	mlx_hook(void *win_ptr, int x_event, int x_mask,
+                 int (*funct)(), void *param);
+
+int	mlx_do_key_autorepeatoff(void *mlx_ptr);
+int	mlx_do_key_autorepeaton(void *mlx_ptr);
+int	mlx_do_sync(void *mlx_ptr);
+
+int	mlx_mouse_get_pos(void *mlx_ptr, void *win_ptr, int *x, int *y);
+int	mlx_mouse_move(void *mlx_ptr, void *win_ptr, int x, int y);
+int	mlx_mouse_hide(void *mlx_ptr, void *win_ptr);
+int	mlx_mouse_show(void *mlx_ptr, void *win_ptr);
+
+int	mlx_get_screen_size(void *mlx_ptr, int *sizex, int *sizey);
+
+#endif /* MLX_H */
+
+
+
+===== File: ./sources/minilibx-linux/mlx_int.h =====
+/*
+** mlx_int.h for mlx in 
+** 
+** Made by Charlie Root
+** Login   <ol@epitech.net>
+** 
+** Started on  Mon Jul 31 16:45:48 2000 Charlie Root
+** Last update Wed May 25 16:44:16 2011 Olivier Crouzet
+*/
+
+
+
+/*
+** Internal settings for MiniLibX
+*/
+
+#ifndef MLX_INT_H
+
+# define MLX_INT_H
+
+# include <stdlib.h>
+# include <stdio.h>
+# include <string.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <sys/mman.h>
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
+# include <sys/ipc.h>
+# include <sys/shm.h>
+# include <X11/extensions/XShm.h>
+# include <X11/XKBlib.h>
+/* #include	<X11/xpm.h> */
+
+
+# define MLX_TYPE_SHM_PIXMAP 3
+# define MLX_TYPE_SHM 2
+# define MLX_TYPE_XIMAGE 1
+
+# define MLX_MAX_EVENT LASTEvent
+
+
+# define ENV_DISPLAY "DISPLAY"
+# define LOCALHOST "localhost"
+# define ERR_NO_TRUECOLOR "MinilibX Error : No TrueColor Visual available.\n"
+# define WARN_SHM_ATTACH "MinilibX Warning : X server can't attach shared memory.\n"
+
+
+typedef	struct	s_xpm_col
+{
+	int		name;
+	int		col;
+}				t_xpm_col;
+
+
+struct	s_col_name
+{
+	char	*name;
+	int		color;
+};
+
+typedef struct	s_event_list
+{
+	int		mask;
+	int		(*hook)();
+	void	*param;
+}				t_event_list;
+
+
+typedef struct	s_win_list
+{
+	Window				window;
+	GC					gc;
+	struct s_win_list	*next;
+	int					(*mouse_hook)();
+	int					(*key_hook)();
+	int					(*expose_hook)();
+	void				*mouse_param;
+	void				*key_param;
+	void				*expose_param;
+	t_event_list		hooks[MLX_MAX_EVENT];
+}				t_win_list;
+
+
+typedef struct	s_img
+{
+	XImage			*image;
+	Pixmap			pix;
+	GC				gc;
+	int				size_line;
+	int				bpp;
+	int				width;
+	int				height;
+	int				type;
+	int				format;
+	char			*data;
+	XShmSegmentInfo	shm;
+}				t_img;
+
+typedef struct	s_xvar
+{
+	Display		*display;
+	Window		root;
+	int			screen;
+	int			depth;
+	Visual		*visual;
+	Colormap	cmap;
+	int			private_cmap;
+	t_win_list	*win_list;
+	int			(*loop_hook)();
+	void		*loop_param;
+	int			use_xshm;
+	int			pshm_format;
+	int			do_flush;
+	int			decrgb[6];
+	Atom		wm_delete_window;
+	Atom		wm_protocols;
+	int 		end_loop;
+}				t_xvar;
+
+
+int				mlx_int_do_nothing();
+int				mlx_get_color_value();
+int				mlx_int_get_good_color();
+int				mlx_int_find_in_pcm();
+int				mlx_int_anti_resize_win();
+int				mlx_int_wait_first_expose();
+int				mlx_int_rgb_conversion();
+int				mlx_int_deal_shm();
+void			*mlx_int_new_xshm_image();
+char			**mlx_int_str_to_wordtab();
+void			*mlx_new_image();
+int				shm_att_pb();
+int				mlx_int_get_visual(t_xvar *xvar);
+int				mlx_int_set_win_event_mask(t_xvar *xvar);
+int				mlx_int_str_str_cote(char *str,char *find,int len);
+int				mlx_int_str_str(char *str,char *find,int len);
+
+
+#endif
+
+
+
+===== File: ./sources/libft/libft.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: procha-r <procha-r@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/10 20:04:22 by pedroribeir       #+#    #+#             */
+/*   Updated: 2025/05/01 12:41:31 by procha-r         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef LIBFT_H
+# define LIBFT_H
+
+# include <stddef.h> // For size_t
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+
+// Define the t_list structure for linked list functions
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}	t_list;
+
+// Part 1: Standard libc function prototypes
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalnum(int c);
+int		ft_isascii(int c);
+int		ft_isprint(int c);
+size_t	ft_strlen(const char *s);
+void	*ft_memset(void *b, int c, size_t len);
+void	ft_bzero(void *s, size_t n);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+void	*ft_memmove(void *dst, const void *src, size_t len);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
+int		ft_toupper(int c);
+int		ft_tolower(int c);
+char	*ft_strchr(const char *s, int c);
+char	*ft_strrchr(const char *s, int c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+void	*ft_memchr(const void *s, int c, size_t n);
+int		ft_memcmp(const void *s1, const void *s2, size_t n);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+int		ft_atoi(const char *str);
+void	*ft_calloc(size_t count, size_t size);
+char	*ft_strdup(const char *s1);
+
+// Part 2: Additional function prototypes
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strtrim(char const *s1, char const *set);
+char	**ft_split(char const *s, char c);
+char	*ft_itoa(int n);
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void	ft_striteri(char *s, void (*f)(unsigned int, char *));
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putendl_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
+
+// Bonus: Linked list function prototypes
+t_list	*ft_lstnew(void *content);
+void	ft_lstadd_front(t_list **lst, t_list *new);
+int		ft_lstsize(t_list *lst);
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstdelone(t_list *lst, void (*del)(void));
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstiter(t_list *lst, void (*f)(void *));
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+long	ft_atol(const char *str);
+void	ft_free_split(char **split);
+
+#endif
+
+
+
+===== File: ./sources/get_next_line/get_next_line.h =====
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pedroribeiro <pedroribeiro@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 13:13:02 by pedroribeir       #+#    #+#             */
+/*   Updated: 2024/12/10 14:25:30 by pedroribeir      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
+# include <unistd.h>
+# include <stdlib.h>
+# include <stddef.h>
+
+char	*get_next_line(int fd);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlen(const char *s);
+void	*ft_calloc(size_t count, size_t size);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+
+#endif
+
+

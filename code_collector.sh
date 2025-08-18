@@ -16,7 +16,7 @@ OUTPUT_FILE="all_code.txt"
 rm -f "$OUTPUT_FILE"
 
 # Define the file extension to search for (change as needed, e.g., "*.c" to "*.py")
-FILE_PATTERN="*.c"
+FILE_PATTERN="*.h"
 
 # Build exclusion options if any folder names are provided as arguments
 EXCLUDE_OPTIONS=()
