@@ -305,11 +305,3 @@ title: Typical Evaluator Questions
 -  **GIF demos** & screenshots (see next section)
 
 ---
-
-# **Screenshots & GIF Placeholders** 📸🎥
-
-GIFs Coming soon..
----
-
-> 🧭 **Quick Mental Model:** _Map → Parse → Matrix → Project → Draw → Present → Hook → Update → Redraw._  
-> 
