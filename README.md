@@ -1,8 +1,18 @@
 # **FdF — Wireframe Map Renderer** 🗺️🧱✨
 
-![Wireframe Zoom Demo](assets/fdf_demo.gif)
-
 > A clean, **Norminette-compliant** MiniLibX project that parses heightmaps and renders gorgeous wireframes with isometric/parallel projection — fast, stable, and defense-ready.
+
+# 🌐 Wireframe Renderer Demo
+### ✅ Features demonstrated in the clip:
+
+Parsing + dynamic allocation of .fdf maps
+Bresenham line algorithm for efficient wireframe rendering
+Interactive controls: zoom, pan, rotate, projection toggle
+Projection modes: parallel ↔ isometric
+Event-driven redraw system (key hooks & clean image buffer)
+Dynamic coloring based on height values
+
+![Wireframe demonstration](assets/fdf_demo.gif)
 
 ---
 
