@@ -2,7 +2,9 @@
 
 > A clean, **Norminette-compliant** MiniLibX project that parses heightmaps and renders gorgeous wireframes with isometric/parallel projection — fast, stable, and defense-ready.
 
-# 🌐 Wireframe Renderer Demo
+--- 
+
+## 🌐 Wireframe Renderer Demo
 ### ✅ Features demonstrated in the clip:
 
 Parsing + dynamic allocation of .fdf maps
